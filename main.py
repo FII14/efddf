@@ -52,7 +52,7 @@ elif tindakan == "2":
         pilihan = input(f"File '{nama_file_keluaran}' sudah ada. Apakah Anda ingin menimpa file yang ada? (iya/tidak): ")
     
         if pilihan.lower() != 'iya':
-            print("Enkripsi dibatalkan.")
+            print("Deskripsi dibatalkan.")
             sys.exit(1)
     
     perintah = f'openssl enc -d -aes-256-cbc -in "{nama_file_masukkan}" -out "{nama_file_keluaran}"'
