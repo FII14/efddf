@@ -59,6 +59,10 @@ elif tindakan == "2":
     
     perintah = f'openssl enc -d -aes-256-cbc -in "{nama_file_masukkan}" -out "{nama_file_keluaran}"'
     subprocess.run(perintah, shell=True, text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    if subprocess.run == "Verify failure":
+        print("}^§^×¥{€}€{€{€{€{€{{")
+    
     print("\n[*] Sedang melakukan dekripsi...")
     print("\nFile telah didedekripsi.")
     exit(0)
