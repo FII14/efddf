@@ -5,8 +5,7 @@ print("""
 @ Program : Enkripsi dan deskripsi file   @
 @ Pembuat : Rofi [FII14]                  @
 @ GitHub  : https://github.com/FII14/eddf @
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-""")
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@""")
 
 print("""
 Menu:
@@ -23,7 +22,8 @@ if tindakan == "1":
     nama_file_keluaran = input("Masukkan nama file keluaran: ")
     perintah = f'openssl enc -aes-256-cbc -salt -in "{nama_file_masukkan}" -out "{nama_file_keluaran}"'
     subprocess.run(perintah, shell=True, text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    print("File telah dienkripsi.")
+    print("\n[*] Sedang melakukan enkripsi...")
+    print("\nFile telah dienkripsi.")
     exit(0)
 
 elif tindakan == "2":
@@ -31,7 +31,8 @@ elif tindakan == "2":
     nama_file_keluaran = input("Masukkan nama file keluaran: ")
     perintah = f'openssl enc -d -aes-256-cbc -in "{nama_file_masukkan}" -out "{nama_file_keluaran}"'
     subprocess.run(perintah, shell=True, text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    print("File telah didedekripsi.")
+    print("\n[*] Sedang melakukan dekripsi...")
+    print("\nFile telah didedekripsi.")
     exit(0)
 
 elif tindakan == "3":
