@@ -8,7 +8,7 @@ Menu:
 [3] Keluar dari program
 """)
 
-tindakan = input("Pilih tindakan:\n1. Enkripsi\n2. Dedekripsi\nPilih 1 atau 2: ")
+tindakan = input("Pilih 1 atau 2: ")
 
 if tindakan == "1":
     nama_file_masukkan = input("Masukkan nama file yang ingin dienkripsi: ")
