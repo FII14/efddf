@@ -1,6 +1,6 @@
-import subprocess
 import os
 import sys
+import base64
 
 print("""
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -26,19 +26,22 @@ if tindakan == "1":
         print(f"Kesalahan: File '{nama_file_masukkan}' tidak ditemukan.")
         sys.exit(1)
     
-    nama_file_keluaran = input("Masukkan nama file keluaran: ")
-
-    if os.path.exists(nama_file_keluaran):
-        pilihan = input(f"File '{nama_file_keluaran}' sudah ada. Apakah Anda ingin menimpa file yang ada? (iya/tidak): ")
+    nama_file_enkripsi = base64.b32encode(nama_file_masukkan.encode()).decode() + ".b32"
+    
+    if os.path.exists(nama_file_enkripsi):
+        pilihan = input(f"File '{nama_file_enkripsi}' sudah ada. Apakah Anda ingin menimpa file yang ada? (iya/tidak): ")
     
         if pilihan.lower() != 'iya':
             print("Enkripsi dibatalkan.")
             sys.exit(1)
     
-    perintah = f'openssl enc -aes-256-cbc -salt -in "{nama_file_masukkan}" -out "{nama_file_keluaran}"'
-    subprocess.run(perintah, shell=True, text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    with open(nama_file_masukkan, 'rb') as infile:
+        data = infile.read()
+        encoded_data = base64.b32encode(data)
+        with open(nama_file_enkripsi, 'wb') as outfile:
+            outfile.write(encoded_data)
     print("\n[*] Sedang melakukan enkripsi...")
-    print("\nFile telah dienkripsi.")
+    print(f"\nFile telah dienkripsi dan disimpan sebagai '{nama_file_enkripsi}'.")
     exit(0)
 
 elif tindakan == "2":
@@ -48,23 +51,30 @@ elif tindakan == "2":
         print(f"Kesalahan: File '{nama_file_masukkan}' tidak ditemukan.")
         sys.exit(1)
     
-    nama_file_keluaran = input("Masukkan nama file keluaran: ")
-
-    if os.path.exists(nama_file_keluaran):
-        pilihan = input(f"File '{nama_file_keluaran}' sudah ada. Apakah Anda ingin menimpa file yang ada? (iya/tidak): ")
+    if not nama_file_masukkan.endswith(".b32"):
+        print("Kesalahan: File yang ingin didedekripsi harus memiliki ekstensi .b32")
+        sys.exit(1)
+    
+    nama_file_deskripsi = base64.b32decode(nama_file_masukkan[:-4]).decode()
+    
+    if os.path.exists(nama_file_deskripsi):
+        pilihan = input(f"File '{nama_file_deskripsi}' sudah ada. Apakah Anda ingin menimpa file yang ada? (iya/tidak): ")
     
         if pilihan.lower() != 'iya':
             print("Deskripsi dibatalkan.")
             sys.exit(1)
     
-    perintah = f'openssl enc -d -aes-256-cbc -in "{nama_file_masukkan}" -out "{nama_file_keluaran}"'
-    subprocess.run(perintah, shell=True, text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    with open(nama_file_masukkan, 'rb') as infile:
+        encoded_data = infile.read()
+        decoded_data = base64.b32decode(encoded_data)
+        with open(nama_file_deskripsi, 'wb') as outfile:
+            outfile.write(decoded_data)
     print("\n[*] Sedang melakukan dekripsi...")
-    print("\nFile telah didedekripsi.")
+    print(f"\nFile telah didedekripsi dan disimpan sebagai '{nama_file_deskripsi}'.")
     exit(0)
 
 elif tindakan == "3":
-  exit(0)
+    exit(0)
 
 else:
     print("Pilihan tidak valid.")
